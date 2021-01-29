@@ -92,6 +92,7 @@ def main():
         for content in contents:
             final = final + content + '\n'
         
+        print(final)
         s = save(target,final)
         if s.status:
             print('Done! Please input "service sshd reload" to valid.')
