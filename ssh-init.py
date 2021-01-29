@@ -53,37 +53,55 @@ import re
 target = '/etc/ssh/sshd_config'
 
 def main():
-    if not os.path.exists('~/.ssh'):
-        os.makedirs('~/.ssh')
+    if not os.path.exists('/root/.ssh/'):
+        os.makedirs('/root/.ssh/')
 
     f = get(target)
     if f.status:
         contents = f.text.split('\n')
+        FOUND = [False]*5
         for i in range(len(contents)):
             searchObj = re.search(r'^.*?RSAAuthentication.*$',contents[i])
             if searchObj:
                 contents[i] = 'RSAAuthentication yes'
+                FOUND[0] = True
                 continue
 
             searchObj = re.search(r'^.*?PubkeyAuthentication.*$',contents[i])
             if searchObj:
                 contents[i] = 'PubkeyAuthentication yes'
+                FOUND[1] = True
                 continue
 
             searchObj = re.search(r'^.*?AuthorizedKeysFile.*$',contents[i])
             if searchObj:
                 contents[i] = 'AuthorizedKeysFile ~/.ssh/authorized_keys'
+                FOUND[2] = True
                 continue
             
             searchObj = re.search(r'^.*?PermitRootLogin.*$',contents[i])
             if searchObj:
                 contents[i] = 'PermitRootLogin yes'
+                FOUND[3] = True
                 continue
 
             searchObj = re.search(r'^.*?MaxSessions.*$',contents[i])
             if searchObj:
                 contents[i] = 'MaxSessions 50'
+                FOUND[4] = True
                 continue
+        
+        if not FOUND[0]:
+            contents.append('RSAAuthentication yes')
+        if not FOUND[1]:
+            contents.append('PubkeyAuthentication yes')
+        if not FOUND[2]:
+            contents.append('AuthorizedKeysFile ~/.ssh/authorized_keys')
+        if not FOUND[3]:
+            contents.append('PermitRootLogin yes')
+        if not FOUND[4]:
+            contents.append('MaxSessions 50')
+        
 
         final = ''
         for content in contents:
