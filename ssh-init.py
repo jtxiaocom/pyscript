@@ -56,6 +56,7 @@ def main():
     f = get(target)
     if f.status:
         contents = f.text.split('\n')
+        print(contents)
         for content in contents:
             searchObj = re.search(r'^.*?RSAAuthentication.*$',content)
             if searchObj:
