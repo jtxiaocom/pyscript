@@ -53,7 +53,7 @@ import re
 target = '/etc/ssh/sshd_config'
 
 def main():
-    if not os.path.exists('~/.ssh')
+    if not os.path.exists('~/.ssh'):
         os.makedirs('~/.ssh')
 
     f = get(target)
