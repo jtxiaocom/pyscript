@@ -56,43 +56,36 @@ def main():
     f = get(target)
     if f.status:
         contents = f.text.split('\n')
-        print(contents)
         for i in range(len(contents)):
             searchObj = re.search(r'^.*?RSAAuthentication.*$',contents[i])
             if searchObj:
-                print('get it 1')
                 contents[i] = 'RSAAuthentication yes'
                 continue
 
             searchObj = re.search(r'^.*?PubkeyAuthentication.*$',contents[i])
             if searchObj:
-                print('get it 2')
                 contents[i] = 'PubkeyAuthentication yes'
                 continue
 
             searchObj = re.search(r'^.*?AuthorizedKeysFile.*$',contents[i])
             if searchObj:
-                print('get it 3')
                 contents[i] = 'AuthorizedKeysFile ~/.ssh/authorized_keys'
                 continue
             
             searchObj = re.search(r'^.*?PermitRootLogin.*$',contents[i])
             if searchObj:
-                print('get it 4')
                 contents[i] = 'PermitRootLogin yes'
                 continue
 
-            searchObj = re.search(r'^.*MaxSessions.*$',contents[i])
+            searchObj = re.search(r'^.*?MaxSessions.*$',contents[i])
             if searchObj:
                 contents[i] = 'MaxSessions 50'
-                print('get it 5')
                 continue
 
         final = ''
         for content in contents:
             final = final + content + '\n'
         
-        print(final)
         s = save(target,final)
         if s.status:
             print('Done! Please input "service sshd reload" to valid.')
