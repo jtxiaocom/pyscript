@@ -59,28 +59,32 @@ def main():
         for content in contents:
             searchObj = re.search(r'^.*?RSAAuthentication.*$',content)
             if searchObj:
+                print('get it 1')
                 content = 'RSAAuthentication yes'
                 continue
 
             searchObj = re.search(r'^.*?PubkeyAuthentication.*$',content)
             if searchObj:
+                print('get it 2')
                 content = 'PubkeyAuthentication yes'
                 continue
 
             searchObj = re.search(r'^.*?AuthorizedKeysFile.*$',content)
             if searchObj:
+                print('get it 3')
                 content = 'AuthorizedKeysFile ~/.ssh/authorized_keys'
                 continue
             
             searchObj = re.search(r'^.*?PermitRootLogin.*$',content)
             if searchObj:
+                print('get it 4')
                 content = 'PermitRootLogin yes'
                 continue
 
-            searchObj = re.search(r'^.*?MaxSessions.*$',content)
+            searchObj = re.search(r'^.*MaxSessions.*$',content)
             if searchObj:
                 content = 'MaxSessions 50'
-                print('get it')
+                print('get it 5')
                 continue
 
         final = ''
