@@ -50,15 +50,49 @@ def save(filePath,content):
 
 import re
 
+target = '/etc/ssh/sshd_config'
+
 def main():
-    f = get('/etc/ssh/sshd_config')
+    f = get(target)
     if f.status:
-        print(f.text)
         contents = f.text.split('\n')
         for content in contents:
             searchObj = re.search(r'^.*?RSAAuthentication.*$',content)
             if searchObj:
-                print(content)
+                content = 'RSAAuthentication yes'
+                continue
+
+            searchObj = re.search(r'^.*?PubkeyAuthentication.*$',content)
+            if searchObj:
+                content = 'PubkeyAuthentication yes'
+                continue
+
+            searchObj = re.search(r'^.*?AuthorizedKeysFile.*$',content)
+            if searchObj:
+                content = 'AuthorizedKeysFile ~/.ssh/authorized_keys'
+                continue
+            
+            searchObj = re.search(r'^.*?PermitRootLogin.*$',content)
+            if searchObj:
+                content = 'PermitRootLogin yes'
+                continue
+
+            searchObj = re.search(r'^.*?MaxSessions.*$',content)
+            if searchObj:
+                content = 'MaxSessions 50'
+                continue
+
+        final = ''
+        for content in contents:
+            final = final + content + '\n'
+        
+        s = save(target,final)
+        if s.status:
+            print('Done! Please input "service sshd reload" to valid.')
+        else:
+            print('error')
+    else:
+        print('error')
 
 
 if __name__ == "__main__":
