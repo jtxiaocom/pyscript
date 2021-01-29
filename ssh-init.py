@@ -57,34 +57,34 @@ def main():
     if f.status:
         contents = f.text.split('\n')
         print(contents)
-        for content in contents:
-            searchObj = re.search(r'^.*?RSAAuthentication.*$',content)
+        for i in range(len(contents)):
+            searchObj = re.search(r'^.*?RSAAuthentication.*$',contents[i])
             if searchObj:
                 print('get it 1')
-                content = 'RSAAuthentication yes'
+                contents[i] = 'RSAAuthentication yes'
                 continue
 
-            searchObj = re.search(r'^.*?PubkeyAuthentication.*$',content)
+            searchObj = re.search(r'^.*?PubkeyAuthentication.*$',contents[i])
             if searchObj:
                 print('get it 2')
-                content = 'PubkeyAuthentication yes'
+                contents[i] = 'PubkeyAuthentication yes'
                 continue
 
-            searchObj = re.search(r'^.*?AuthorizedKeysFile.*$',content)
+            searchObj = re.search(r'^.*?AuthorizedKeysFile.*$',contents[i])
             if searchObj:
                 print('get it 3')
-                content = 'AuthorizedKeysFile ~/.ssh/authorized_keys'
+                contents[i] = 'AuthorizedKeysFile ~/.ssh/authorized_keys'
                 continue
             
-            searchObj = re.search(r'^.*?PermitRootLogin.*$',content)
+            searchObj = re.search(r'^.*?PermitRootLogin.*$',contents[i])
             if searchObj:
                 print('get it 4')
-                content = 'PermitRootLogin yes'
+                contents[i] = 'PermitRootLogin yes'
                 continue
 
-            searchObj = re.search(r'^.*MaxSessions.*$',content)
+            searchObj = re.search(r'^.*MaxSessions.*$',contents[i])
             if searchObj:
-                content = 'MaxSessions 50'
+                contents[i] = 'MaxSessions 50'
                 print('get it 5')
                 continue
 
