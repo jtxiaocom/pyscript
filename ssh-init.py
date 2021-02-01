@@ -59,7 +59,6 @@ def changeValue(items,rgx,content):
     return items
 
 
-
 import re
 target = '/etc/ssh/sshd_config'
 def main():
@@ -75,7 +74,7 @@ def main():
         contents = changeValue(contents,r'^.*?PermitRootLogin.*$','PermitRootLogin yes')
         contents = changeValue(contents,r'^.*?MaxSessions.*$','MaxSessions 50')
         contents = changeValue(contents,r'^.*?ClientAliveInterval.*$','ClientAliveInterval 60')
-        contents = changeValue(contents,r'^.*?ClientAliveCountMax.*$','ClientAliveCountMax 10')
+        contents = changeValue(contents,r'^.*?ClientAliveCountMax.*$','ClientAliveCountMax 500')
 
         final = ''
         for content in contents:
