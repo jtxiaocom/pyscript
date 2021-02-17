@@ -83,6 +83,7 @@ def main():
         s = save(target,final)
         if s.status:
             print('Done! Please input "service sshd reload" to valid.')
+            print('      Please input input "/etc/ssh/sshd_config" to check config file')
         else:
             print('error')
     else:
